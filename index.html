@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohannad Atta | CTO & Robotics Engineer</title>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#0a0a0a',
+                        surface: '#121212',
+                        surfaceHighlight: '#1E1E1E',
+                        primary: '#2DD4BF', // Teal
+                        secondary: '#A855F7', // Purple
+                        textMain: '#E5E5E5',
+                        textMuted: '#A3A3A3',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #E5E5E5;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2DD4BF;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #2DD4BF, #A855F7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-pattern {
+            background-image: radial-gradient(circle at 1px 1px, rgba(45, 212, 191, 0.1) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // --- ICONS (Inline SVG for reliability) ---
+        const Icons = {
+            Menu: ({size=24}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>,
+            X: ({size=24}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>,
+            Github: ({size=24}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>,
+            Linkedin: ({size=24}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>,
+            Mail: ({size=24}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>,
+            Bot: ({size=24}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>,
+            Cpu: ({size=24}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3"/><path d="M15 1v3"/><path d="M9 20v3"/><path d="M15 20v3"/><path d="M20 9h3"/><path d="M20 14h3"/><path d="M1 9h3"/><path d="M1 14h3"/></svg>,
+            Send: ({size=24}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>,
+            Download: ({size=24}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>,
+            Code: ({size=24}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>,
+            Factory: ({size=24}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg>,
+            Zap: ({size=24}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
+            Layers: ({size=24}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
+        };
+
+        // --- DATA ---
+        const PORTFOLIO_DATA = {
+            personal: {
+                name: "Mohannad Atta",
+                title: "CTO & Software Engineer",
+                subtitle: "Specializing in AI, Robotics, and Autonomous Systems",
+                bio: "I specialize in software engineering for complex systems, spanning AI-powered web platforms, robotics, autonomous systems, and industrial automation. My work bridges the gap between high-level cloud architectures and low-level embedded control systems.",
+                email: "contact@mohannadatta.com",
+                github: "https://github.com",
+                linkedin: "https://linkedin.com",
+                photo: "Mohannad_Photo.jpg",
+                cv: "Atta_CV.pdf"
+            },
+            skills: [
+                {
+                    category: "Robotics & Embedded",
+                    icon: <Icons.Cpu />,
+                    items: ["ROS2", "Model Predictive Control", "Sensor Fusion", "RTOS", "PLC", "C/C++", "Python"]
+                },
+                {
+                    category: "AI & Data",
+                    icon: <Icons.Bot />,
+                    items: ["TensorFlow", "PyTorch", "Computer Vision", "LLM Integration", "Geospatial Pipelines"]
+                },
+                {
+                    category: "Full Stack & Cloud",
+                    icon: <Icons.Layers />,
+                    items: ["React", "Next.js", "Flutter", "Firebase", "Docker", "PostgreSQL", "Google Cloud"]
+                }
+            ],
+            experience: [
+                {
+                    year: "Oct 2024 - Present",
+                    role: "CTO & Lead Engineer",
+                    company: "Earlybuild GmbH",
+                    desc: "Architected an AI-powered location intelligence platform. Led the development of geospatial data pipelines and a Flutter/Firebase stack."
+                },
+                {
+                    year: "2023 - Present",
+                    role: "MSc Autonomy Technologies",
+                    company: "FAU Erlangen–Nürnberg",
+                    desc: "Focus on Autonomous Systems, Control Engineering, and AI. Researching Multi-Agent Systems."
+                },
+                {
+                    year: "2018 - 2022",
+                    role: "B.Sc. Mechatronics",
+                    company: "Ain Shams University",
+                    desc: "Grade 1.8. Graduation Project: Intelligent CRS Catalyst-5 Manipulator with vision-based collision avoidance."
+                }
+            ],
+            projects: [
+                {
+                    title: "Earlybuild Platform",
+                    type: "Commercial / AI",
+                    tech: ["Flutter", "Firebase", "ML", "Geospatial"],
+                    desc: "CTO Role. An AI-powered B2B platform transforming how construction companies analyze location data. Built scalable cloud architecture."
+                },
+                {
+                    title: "Autonomous Firefighting Robot",
+                    type: "Robotics",
+                    tech: ["ROS", "Sensor Fusion", "CV", "C++"],
+                    desc: "A semi-autonomous robot capable of navigating hazardous environments, detecting flames via computer vision, and executing suppression protocols."
+                },
+                {
+                    title: "Industrial Mini Production Line",
+                    type: "Automation",
+                    tech: ["PLC", "Ladder Logic", "SCADA"],
+                    desc: "Designed the control logic for a 5-stage automation process, simulating real-world manufacturing constraints and error handling."
+                },
+                {
+                    title: "Elevator Control System",
+                    type: "Embedded",
+                    tech: ["ATmega32", "C", "FSM"],
+                    desc: "Real-time finite state machine implementation for a multi-floor elevator system with safety interrupts and fire mode protocols."
+                }
+            ]
+        };
+
+        // --- COMPONENTS ---
+
+        const Navbar = ({ activeSection, setActiveSection, toggleAI }) => {
+            const [isScrolled, setIsScrolled] = useState(false);
+            const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+            useEffect(() => {
+                const handleScroll = () => setIsScrolled(window.scrollY > 50);
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            const navLinks = [
+                { name: 'Home', id: 'home' },
+                { name: 'About', id: 'about' },
+                { name: 'Experience', id: 'experience' },
+                { name: 'Projects', id: 'projects' },
+                { name: 'Contact', id: 'contact' },
+            ];
+
+            const scrollTo = (id) => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                    setActiveSection(id);
+                    setMobileMenuOpen(false);
+                }
+            };
+
+            return (
+                <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-surface/90 backdrop-blur-md shadow-lg border-b border-white/5' : 'bg-transparent'}`}>
+                    <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+                        <div className="text-xl font-bold font-heading tracking-tight cursor-pointer" onClick={() => scrollTo('home')}>
+                            <span className="text-white">Mohannad</span><span className="text-primary">.</span>
+                        </div>
+
+                        {/* Desktop Nav */}
+                        <div className="hidden md:flex items-center space-x-8">
+                            {navLinks.map((link) => (
+                                <button
+                                    key={link.name}
+                                    onClick={() => scrollTo(link.id)}
+                                    className={`text-sm font-medium transition-colors hover:text-primary ${activeSection === link.id ? 'text-primary' : 'text-textMuted'}`}
+                                >
+                                    {link.name}
+                                </button>
+                            ))}
+                            <button 
+                                onClick={toggleAI}
+                                className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-secondary/20 to-primary/20 border border-primary/30 text-primary hover:border-primary transition-all text-xs font-bold uppercase tracking-wider hover:scale-105"
+                            >
+                                <Icons.Bot size={16} /> AI Assistant
+                            </button>
+                        </div>
+
+                        {/* Mobile Toggle */}
+                        <div className="md:hidden text-white cursor-pointer" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+                            {mobileMenuOpen ? <Icons.X /> : <Icons.Menu />}
+                        </div>
+                    </div>
+
+                    {/* Mobile Menu */}
+                    {mobileMenuOpen && (
+                        <div className="md:hidden bg-surface border-b border-white/5 overflow-hidden animate-fade-in-up">
+                            <div className="flex flex-col p-6 space-y-4">
+                                {navLinks.map((link) => (
+                                    <button
+                                        key={link.name}
+                                        onClick={() => scrollTo(link.id)}
+                                        className="text-left text-lg font-medium text-textMuted hover:text-primary"
+                                    >
+                                        {link.name}
+                                    </button>
+                                ))}
+                                <button onClick={() => {toggleAI(); setMobileMenuOpen(false)}} className="text-left text-lg font-medium text-secondary">
+                                    Ask AI Assistant
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </nav>
+            );
+        };
+
+        const Hero = () => {
+            return (
+                <section id="home" className="min-h-screen flex items-center relative overflow-hidden pt-20">
+                    <div className="absolute inset-0 hero-pattern opacity-20 pointer-events-none"></div>
+                    
+                    {/* Background Glows */}
+                    <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[100px]"></div>
+                    <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-[100px]"></div>
+
+                    <div className="max-w-7xl mx-auto px-6 relative z-10 w-full grid md:grid-cols-2 gap-12 items-center">
+                        <div className="animate-fade-in-up">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-primary text-xs font-bold uppercase tracking-widest mb-6">
+                                <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                                Available for Projects
+                            </div>
+                            <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
+                                <span className="block text-white">Building the</span>
+                                <span className="gradient-text">Autonomous Future</span>
+                            </h1>
+                            <p className="text-xl text-textMuted leading-relaxed mb-8 max-w-lg">
+                                {PORTFOLIO_DATA.personal.title}.<br/>
+                                {PORTFOLIO_DATA.personal.tagline || "Bridging high-level cloud architectures with low-level embedded control."}
+                            </p>
+                            <div className="flex flex-wrap gap-4">
+                                <a href="#projects" className="px-8 py-4 rounded-lg bg-primary text-background font-bold hover:bg-primary/90 transition-all flex items-center gap-2 hover:scale-105">
+                                    View Engineering Work <Icons.Code size={18}/>
+                                </a>
+                                <a 
+                                    href={PORTFOLIO_DATA.personal.cv} 
+                                    download="Mohannad_Atta_CV.pdf"
+                                    className="px-8 py-4 rounded-lg bg-surfaceHighlight border border-white/10 text-white font-bold hover:bg-white/10 transition-all flex items-center gap-2 hover:scale-105"
+                                >
+                                    Download CV <Icons.Download size={18}/>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div className="hidden md:block relative group animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+                            {/* Profile Picture with Tech Effect */}
+                            <div className="relative z-10 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                                <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none"></div>
+                                <img 
+                                    src={PORTFOLIO_DATA.personal.photo} 
+                                    alt={PORTFOLIO_DATA.personal.name}
+                                    className="w-full h-auto object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                                />
+                                {/* System Overlay */}
+                                <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/90 to-transparent p-6 pt-20 z-20">
+                                    <div className="flex items-center gap-3 border-t border-white/20 pt-3">
+                                        <div className="flex gap-1">
+                                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                                            <div className="w-2 h-2 bg-green-500/50 rounded-full"></div>
+                                        </div>
+                                        <div className="font-mono text-xs text-primary tracking-widest uppercase">
+                                            System_Online // ID: CTO
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Decorative elements behind */}
+                            <div className="absolute -top-6 -right-6 w-full h-full border border-primary/20 rounded-2xl -z-10 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform duration-500"></div>
+                            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-secondary/20 blur-3xl -z-10"></div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const About = () => {
+            return (
+                <section id="about" className="py-24 bg-surface">
+                    <div className="max-w-7xl mx-auto px-6">
+                        <div className="mb-16">
+                            <h2 className="text-3xl md:text-4xl font-bold mb-4">Technical <span className="text-primary">Arsenal</span></h2>
+                            <p className="text-textMuted max-w-2xl">
+                                My expertise isn't just full-stack; it's full-system. From the metal up to the cloud.
+                            </p>
+                        </div>
+
+                        <div className="grid md:grid-cols-3 gap-8">
+                            {PORTFOLIO_DATA.skills.map((skillGroup, idx) => (
+                                <div 
+                                    key={idx}
+                                    className="p-8 rounded-2xl bg-surfaceHighlight border border-white/5 hover:border-primary/30 transition-all hover:-translate-y-1 group"
+                                >
+                                    <div className="w-12 h-12 rounded-lg bg-background flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+                                        {skillGroup.icon}
+                                    </div>
+                                    <h3 className="text-xl font-bold mb-4">{skillGroup.category}</h3>
+                                    <ul className="space-y-2">
+                                        {skillGroup.items.map((item, i) => (
+                                            <li key={i} className="flex items-center gap-2 text-textMuted text-sm">
+                                                <div className="w-1.5 h-1.5 rounded-full bg-secondary"></div>
+                                                {item}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const Experience = () => {
+            return (
+                <section id="experience" className="py-24 bg-background relative">
+                     <div className="max-w-4xl mx-auto px-6">
+                        <div className="mb-16 text-center">
+                            <h2 className="text-3xl md:text-4xl font-bold mb-4">Experience & <span className="text-secondary">Education</span></h2>
+                            <p className="text-textMuted">A timeline of my engineering journey.</p>
+                        </div>
+
+                        <div className="space-y-12 relative before:content-[''] before:absolute before:left-4 md:before:left-1/2 before:top-0 before:bottom-0 before:w-0.5 before:bg-white/10">
+                            {PORTFOLIO_DATA.experience.map((exp, idx) => (
+                                <div 
+                                    key={idx}
+                                    className={`relative flex flex-col md:flex-row gap-8 ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
+                                >
+                                    <div className="hidden md:block w-1/2"></div>
+                                    
+                                    {/* Dot */}
+                                    <div className="absolute left-4 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-background border-4 border-secondary z-10 mt-1.5"></div>
+
+                                    <div className="pl-12 md:pl-0 md:w-1/2">
+                                        <div className={`p-6 rounded-xl bg-surface border border-white/5 hover:border-secondary/30 transition-all hover:bg-surfaceHighlight ${idx % 2 === 0 ? 'md:mr-8' : 'md:ml-8'}`}>
+                                            <span className="text-xs font-mono text-primary mb-2 block">{exp.year}</span>
+                                            <h3 className="text-lg font-bold text-white">{exp.role}</h3>
+                                            <div className="text-secondary text-sm font-semibold mb-3">{exp.company}</div>
+                                            <p className="text-textMuted text-sm leading-relaxed">
+                                                {exp.desc}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                     </div>
+                </section>
+            );
+        };
+
+        const ProjectCard = ({ project }) => {
+            return (
+                <div 
+                    className="group relative rounded-xl overflow-hidden bg-surfaceHighlight border border-white/5 hover:border-primary/50 transition-all duration-300 h-full flex flex-col hover:-translate-y-1"
+                >
+                    <div className="h-48 bg-gradient-to-br from-gray-800 to-black relative flex items-center justify-center overflow-hidden">
+                        {/* Placeholder generic abstract visual for projects */}
+                        <div className="absolute inset-0 opacity-30 group-hover:scale-110 transition-transform duration-700 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+                        <Icons.Code size={48} />
+                        <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-black/60 backdrop-blur-sm text-xs font-bold text-white border border-white/10">
+                            {project.type}
+                        </div>
+                    </div>
+                    
+                    <div className="p-6 flex-1 flex flex-col">
+                        <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">{project.title}</h3>
+                        <p className="text-textMuted text-sm mb-6 flex-1">
+                            {project.desc}
+                        </p>
+                        
+                        <div className="flex flex-wrap gap-2 mt-auto">
+                            {project.tech.map((t, i) => (
+                                <span key={i} className="text-xs px-2 py-1 rounded bg-white/5 text-gray-300 border border-white/5">
+                                    {t}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const Projects = () => {
+            return (
+                <section id="projects" className="py-24 bg-surface">
+                    <div className="max-w-7xl mx-auto px-6">
+                        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+                            <div>
+                                <h2 className="text-3xl md:text-4xl font-bold mb-4">Selected <span className="gradient-text">Projects</span></h2>
+                                <p className="text-textMuted">High-impact engineering work in Robotics and AI.</p>
+                            </div>
+                            <a href="https://github.com" target="_blank" className="flex items-center gap-2 text-primary font-medium hover:underline">
+                                View GitHub <Icons.Github size={16}/>
+                            </a>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                            {PORTFOLIO_DATA.projects.map((project, idx) => (
+                                <ProjectCard key={idx} project={project} />
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const Contact = () => {
+            const [status, setStatus] = useState('');
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                setStatus('sending');
+                // Simulate send
+                setTimeout(() => {
+                    setStatus('success');
+                }, 1500);
+            };
+
+            return (
+                <section id="contact" className="py-24 bg-background">
+                    <div className="max-w-3xl mx-auto px-6 text-center">
+                        <h2 className="text-3xl md:text-4xl font-bold mb-8">Ready to <span className="text-primary">Collaborate?</span></h2>
+                        <p className="text-textMuted mb-12">
+                            I am currently open to consulting work and senior engineering roles in Robotics and AI.
+                        </p>
+
+                        <form onSubmit={handleSubmit} className="text-left bg-surface p-8 rounded-2xl border border-white/5 shadow-2xl space-y-6">
+                            <div className="grid md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium text-gray-400">Name</label>
+                                    <input required type="text" className="w-full bg-background border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-primary transition-colors" placeholder="John Doe" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium text-gray-400">Email</label>
+                                    <input required type="email" className="w-full bg-background border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-primary transition-colors" placeholder="john@example.com" />
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium text-gray-400">Message</label>
+                                <textarea required rows="4" className="w-full bg-background border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-primary transition-colors" placeholder="Tell me about your project..."></textarea>
+                            </div>
+                            
+                            <button 
+                                disabled={status === 'success' || status === 'sending'}
+                                className={`w-full py-4 rounded-lg font-bold text-background transition-all flex items-center justify-center gap-2 ${status === 'success' ? 'bg-green-500' : 'bg-primary hover:bg-primary/90'}`}
+                            >
+                                {status === 'sending' ? (
+                                    <span>Sending...</span>
+                                ) : status === 'success' ? (
+                                    <span>Message Sent!</span>
+                                ) : (
+                                    <>Send Message <Icons.Send size={18}/></>
+                                )}
+                            </button>
+                        </form>
+                        
+                        <div className="mt-12 flex justify-center gap-8">
+                            <a href={PORTFOLIO_DATA.personal.github} className="text-textMuted hover:text-white transition-colors"><Icons.Github /></a>
+                            <a href={PORTFOLIO_DATA.personal.linkedin} className="text-textMuted hover:text-white transition-colors"><Icons.Linkedin /></a>
+                            <a href={`mailto:${PORTFOLIO_DATA.personal.email}`} className="text-textMuted hover:text-white transition-colors"><Icons.Mail /></a>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // --- AI ASSISTANT COMPONENT ---
+        const AIAssistant = ({ isOpen, onClose }) => {
+            const [messages, setMessages] = useState([
+                { role: 'ai', content: "Hello! I'm Mohannad's AI Assistant. You can ask me about his experience in Robotics, his CTO role, or his tech stack." }
+            ]);
+            const [input, setInput] = useState('');
+            const [isTyping, setIsTyping] = useState(false);
+            const scrollRef = useRef(null);
+
+            useEffect(() => {
+                if(scrollRef.current) {
+                    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+                }
+            }, [messages]);
+
+            // Simple heuristic response logic to simulate Genkit/LLM
+            const generateResponse = (query) => {
+                const q = query.toLowerCase();
+                if (q.includes('robot') || q.includes('ros') || q.includes('autonomous')) {
+                    return "Mohannad has extensive robotics experience, specifically with ROS2, Sensor Fusion, and MPC. His Master's at FAU focuses on Autonomy Technologies, and he built a semi-autonomous firefighting robot using C++ and Computer Vision.";
+                } else if (q.includes('cto') || q.includes('lead') || q.includes('management')) {
+                    return "As CTO of Earlybuild GmbH, Mohannad architects scalable cloud systems. He bridges the gap between technical engineering and product strategy, leading the development of AI-powered geospatial pipelines using Flutter and Firebase.";
+                } else if (q.includes('stack') || q.includes('tech') || q.includes('language')) {
+                    return "Mohannad is polyglot. For high-level apps, he uses React, Next.js, and Flutter. For system/embedded level, he uses Python (Expert), C++, and MATLAB/Simulink. He's also proficient in Docker and Cloud infrastructure.";
+                } else if (q.includes('contact') || q.includes('hire') || q.includes('email')) {
+                    return "You can reach him directly via the contact form on this page or email contact@mohannadatta.com. He is open to consulting and senior engineering roles.";
+                } else {
+                    return "That's a great question. While I focus on his technical profile, I'd suggest checking the 'Projects' section or contacting him directly for more specific details about '" + query + "'.";
+                }
+            };
+
+            const handleSend = (e) => {
+                e.preventDefault();
+                if (!input.trim()) return;
+
+                const userMsg = { role: 'user', content: input };
+                setMessages(prev => [...prev, userMsg]);
+                setInput('');
+                setIsTyping(true);
+
+                // Simulate network delay
+                setTimeout(() => {
+                    const aiMsg = { role: 'ai', content: generateResponse(userMsg.content) };
+                    setMessages(prev => [...prev, aiMsg]);
+                    setIsTyping(false);
+                }, 1000);
+            };
+
+            if (!isOpen) return null;
+
+            return (
+                <div 
+                    className="fixed bottom-6 right-6 w-96 max-w-[calc(100vw-3rem)] h-[500px] bg-surfaceHighlight border border-secondary/30 shadow-2xl rounded-2xl z-50 flex flex-col overflow-hidden animate-fade-in-up"
+                >
+                    {/* Header */}
+                    <div className="bg-gradient-to-r from-secondary/20 to-primary/20 p-4 border-b border-white/5 flex justify-between items-center">
+                        <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                            <span className="font-bold text-sm text-white">AI Technical Profile</span>
+                        </div>
+                        <button onClick={onClose} className="text-textMuted hover:text-white"><Icons.X size={18}/></button>
+                    </div>
+
+                    {/* Chat Area */}
+                    <div className="flex-1 overflow-y-auto p-4 space-y-4" ref={scrollRef}>
+                        {messages.map((m, i) => (
+                            <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                                <div className={`max-w-[85%] p-3 rounded-2xl text-sm leading-relaxed ${
+                                    m.role === 'user' 
+                                    ? 'bg-primary text-background font-medium rounded-tr-none' 
+                                    : 'bg-white/5 text-gray-200 border border-white/5 rounded-tl-none'
+                                }`}>
+                                    {m.content}
+                                </div>
+                            </div>
+                        ))}
+                        {isTyping && (
+                            <div className="flex justify-start">
+                                <div className="bg-white/5 px-4 py-2 rounded-2xl rounded-tl-none border border-white/5">
+                                    <div className="flex gap-1">
+                                        <div className="w-1.5 h-1.5 bg-textMuted rounded-full animate-bounce"></div>
+                                        <div className="w-1.5 h-1.5 bg-textMuted rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                                        <div className="w-1.5 h-1.5 bg-textMuted rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Suggestions */}
+                    {messages.length < 3 && (
+                        <div className="px-4 pb-2 flex gap-2 overflow-x-auto no-scrollbar">
+                            <button onClick={() => setInput("What is his Robotics experience?")} className="whitespace-nowrap text-xs bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full text-primary border border-primary/20 transition-colors">
+                                🤖 Robotics Exp?
+                            </button>
+                            <button onClick={() => setInput("Tell me about the CTO role")} className="whitespace-nowrap text-xs bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full text-secondary border border-secondary/20 transition-colors">
+                                💼 CTO Role?
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Input */}
+                    <form onSubmit={handleSend} className="p-3 bg-surface border-t border-white/5 flex gap-2">
+                        <input 
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            placeholder="Ask about my skills..." 
+                            className="flex-1 bg-background rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-primary border border-transparent transition-colors"
+                        />
+                        <button type="submit" className="p-2 bg-secondary/80 hover:bg-secondary rounded-lg text-white transition-colors">
+                            <Icons.Send size={18} />
+                        </button>
+                    </form>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [activeSection, setActiveSection] = useState('home');
+            const [aiOpen, setAiOpen] = useState(false);
+
+            return (
+                <div className="antialiased text-gray-200 selection:bg-primary/30">
+                    <Navbar 
+                        activeSection={activeSection} 
+                        setActiveSection={setActiveSection} 
+                        toggleAI={() => setAiOpen(!aiOpen)}
+                    />
+                    
+                    <main>
+                        <Hero />
+                        <About />
+                        <Experience />
+                        <Projects />
+                        <Contact />
+                    </main>
+
+                    <footer className="py-8 text-center text-textMuted text-sm bg-surface border-t border-white/5">
+                        <p>© {new Date().getFullYear()} Mohannad Atta. Built with React & Tailwind.</p>
+                    </footer>
+
+                    <AIAssistant isOpen={aiOpen} onClose={() => setAiOpen(false)} />
+                    
+                    {/* Floating FAB for AI if closed */}
+                    {!aiOpen && (
+                        <button
+                            onClick={() => setAiOpen(true)}
+                            className="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-tr from-secondary to-primary rounded-full shadow-lg shadow-primary/20 flex items-center justify-center text-white z-40 transition-transform hover:scale-110"
+                        >
+                            <Icons.Bot size={28} />
+                        </button>
+                    )}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
