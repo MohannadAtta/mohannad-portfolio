@@ -148,8 +148,8 @@
                 subtitle: "Specializing in AI, Robotics, and Autonomous Systems",
                 bio: "I specialize in software engineering for complex systems, spanning AI-powered web platforms, robotics, autonomous systems, and industrial automation. My work bridges the gap between high-level cloud architectures and low-level embedded control systems.",
                 email: "contact@mohannadatta.com",
-                github: "https://github.com",
-                linkedin: "https://linkedin.com",
+                github: "https://github.com/MohannadAtta",
+                linkedin: "https://www.linkedin.com/in/mohannad-atta-a39b0a216/",
                 photo: "Mohannad_Photo.png",
                 cv: "Atta_CV.pdf"
             },
@@ -292,7 +292,7 @@
 
         // --- COMPONENTS ---
 
-        const Navbar = ({ activeSection, setActiveSection, toggleAI, darkMode, setDarkMode }) => {
+        const Navbar = ({ activeSection, setActiveSection, toggleAI }) => {
             const [isScrolled, setIsScrolled] = useState(false);
             const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -337,13 +337,6 @@
                                     {link.name}
                                 </button>
                             ))}
-                            <button 
-                                onClick={() => setDarkMode(!darkMode)}
-                                className="p-2 rounded-lg hover:bg-white/5 transition-colors text-textMuted hover:text-primary"
-                                title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
-                            >
-                                {darkMode ? <Icons.Sun size={20} /> : <Icons.Moon size={20} />}
-                            </button>
                             <button 
                                 onClick={toggleAI}
                                 className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-secondary/20 to-primary/20 border border-primary/30 text-primary hover:border-primary transition-all text-xs font-bold uppercase tracking-wider hover:scale-105"
@@ -956,26 +949,6 @@
         const App = () => {
             const [activeSection, setActiveSection] = useState('home');
             const [aiOpen, setAiOpen] = useState(false);
-            const [darkMode, setDarkMode] = useState(true);
-
-            useEffect(() => {
-                // Load theme preference
-                const savedTheme = localStorage.getItem('theme');
-                if (savedTheme) {
-                    setDarkMode(savedTheme === 'dark');
-                }
-            }, []);
-
-            useEffect(() => {
-                // Save theme preference and update body class
-                localStorage.setItem('theme', darkMode ? 'dark' : 'light');
-                
-                if (darkMode) {
-                    document.body.classList.remove('light-mode');
-                } else {
-                    document.body.classList.add('light-mode');
-                }
-            }, [darkMode]);
 
             return (
                 <div className="antialiased text-gray-200 selection:bg-primary/30">
@@ -983,8 +956,6 @@
                         activeSection={activeSection} 
                         setActiveSection={setActiveSection} 
                         toggleAI={() => setAiOpen(!aiOpen)}
-                        darkMode={darkMode}
-                        setDarkMode={setDarkMode}
                     />
                     
                     <main>
