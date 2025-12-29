@@ -51,11 +51,30 @@
     </script>
 
     <style>
+        :root {
+            --bg-main: #0a0a0a;
+            --bg-surface: #121212;
+            --bg-surface-highlight: #1E1E1E;
+            --text-main: #E5E5E5;
+            --text-muted: #A3A3A3;
+            --border-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        body.light-mode {
+            --bg-main: #ffffff;
+            --bg-surface: #f5f5f5;
+            --bg-surface-highlight: #e5e5e5;
+            --text-main: #1a1a1a;
+            --text-muted: #666666;
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+        
         body {
-            background-color: #0a0a0a;
-            color: #E5E5E5;
+            background-color: var(--bg-main);
+            color: var(--text-main);
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Poppins', sans-serif;
@@ -65,7 +84,7 @@
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #0a0a0a;
+            background: var(--bg-main);
         }
         ::-webkit-scrollbar-thumb {
             background: #333;
@@ -948,14 +967,13 @@
             }, []);
 
             useEffect(() => {
-                // Save theme preference
+                // Save theme preference and update body class
                 localStorage.setItem('theme', darkMode ? 'dark' : 'light');
                 
-                // Update document class (for future light mode implementation)
                 if (darkMode) {
-                    document.documentElement.classList.add('dark');
+                    document.body.classList.remove('light-mode');
                 } else {
-                    document.documentElement.classList.remove('dark');
+                    document.body.classList.add('light-mode');
                 }
             }, [darkMode]);
 
