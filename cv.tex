@@ -1,0 +1,181 @@
+\documentclass[10.5pt,a4paper]{article}
+
+% ================== PACKAGES ==================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{array}
+\usepackage{qrcode}
+
+% ================== PAGE LAYOUT ==================
+\geometry{
+  top=1.8cm,
+  bottom=2.0cm,
+  left=1.8cm,
+  right=1.8cm
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\renewcommand{\familydefault}{\sfdefault}
+
+\definecolor{lightgray}{gray}{0.90}
+
+% Compact bullet lists
+\setlist[itemize]{leftmargin=1.5em,itemsep=2pt,topsep=2pt}
+
+% Section heading
+\newcommand{\cvsection}[1]{%
+  \vspace{0.25cm}%
+  {\bfseries #1}\par
+  \vspace{0.15cm}%
+  \rule{\textwidth}{0.35pt}\vspace{0.15cm}%
+}
+
+\begin{document}
+
+% ================== HEADER ==================
+\begin{tabularx}{\textwidth}{@{}>{\centering\arraybackslash}p{3cm} X@{}}
+  \raisebox{-0.7\height}{\includegraphics[width=3cm,height=3.6cm,keepaspectratio]{Mohannad_Photo}}
+  &
+  \begin{minipage}[c]{\linewidth}
+      \begin{center}
+          {\Large \textbf{Mohannad Atta}}\\[2pt]
+          \rule{\linewidth}{0.4pt}\\[3pt]
+      \end{center}
+      \colorbox{lightgray}{%
+        \parbox{\linewidth}{\small
+        \textbf{Adresse:} Erlangen, Germany \hfill
+        \textbf{Mobil:} +49\,1573\,8174858\\
+        \textbf{Email:} \href{mailto:mohannadatta@hotmail.com}{mohannadatta@hotmail.com} \hfill
+        \textbf{LinkedIn:} \href{https://www.linkedin.com/in/mohannad-atta-a39b0a216/}{LinkedIn Profil}\\
+        \textbf{Website:} \href{https://mohannadatta.github.io/mohannad-portfolio/}{mohannadatta.github.io/mohannad-portfolio}\\[0.1cm]
+        \hfill\qrcode[height=1cm]{https://mohannadatta.github.io/mohannad-portfolio/}
+        }
+      }
+  \end{minipage}
+\end{tabularx}
+
+\vspace{0.4cm}
+
+% ================== PROFIL ==================
+\cvsection{PROFIL}
+
+Ambitionierter MSc-Student der \textbf{Autonomy Technologies (FAU)} und aktueller \textbf{CTO von Earlybuild GmbH}, mit fundierter Erfahrung in autonomen Systemen, industrieller Automatisierung, Robotik, Embedded Systems und Softwareentwicklung.
+
+Beherrscht moderne Technologien wie \textbf{Python, C++, ROS2, MATLAB/Simulink, Flutter, Firebase}, Cloud-Architekturen und KI-gestützte Datenanalyse.
+
+Stark in Projektmanagement, Systemdesign und cross-funktionaler Zusammenarbeit. Leidenschaftlich daran interessiert, innovative, skalierbare und zukunftsorientierte Lösungen im Kontext von \textbf{Industrie 4.0, Robotik, Automatisierung und autonomen Systemen} zu entwickeln.
+
+% ================== AKTUELLE POSITION ==================
+\cvsection{AKTUELLE POSITION}
+
+\textbf{CTO \& Software Engineer – Earlybuild GmbH} \hfill \textit{seit Okt. 2024}
+
+\begin{itemize}
+  \item Leitung der technischen Strategie für eine KI-gestützte Plattform im Bereich Immobilienanalyse \& Standortintelligenz.
+  \item Entwicklung eines webbasierten Dashboards (Flutter Web, Firebase, Stripe, OSM APIs).
+  \item Aufbau einer skalierbaren Datenpipeline, einschließlich Geodaten-Verarbeitung und Machine-Learning-Modulen.
+  \item Leitung eines internationalen Entwicklerteams (Kanada, Australien, Deutschland).
+  \item Verantwortung für Architektur, Qualitätssicherung \& technische Entscheidungen.
+\end{itemize}
+
+% ================== AUSBILDUNG ==================
+\cvsection{AUSBILDUNG}
+
+\textbf{MSc Autonomy Technologies | FAU Erlangen-Nürnberg} \hfill \textit{Erlangen, Deutschland | In Arbeit}
+
+Fokus: Autonome Systeme, Robotik, Regelungstechnik, KI, eingebettete Systeme, Mensch-Maschine-Interaktion.
+
+Wesentliche Kompetenzen:
+\begin{itemize}
+  \item Modellierung \& Simulation (MATLAB, Simulink)
+  \item Model Predictive Control (MPC)
+  \item ROS2-basierte Navigation
+  \item Multi-Agent Systems
+  \item Sensorfusion \& Echtzeitdatenverarbeitung
+\end{itemize}
+
+Zusätzlich vertiefe ich meine Kenntnisse in modellbasierter Entwicklung, Systemarchitektur und der Integration von KI-Methoden in regelungs- und robotiknahe Anwendungen. Dabei arbeite ich praxisnah an Teamprojekten, in denen robuste Softwarestrukturen, saubere Schnittstellen und reproduzierbare Ergebnisse im Fokus stehen.
+
+\textbf{B.Sc. Mechatronik \& Automatisierungstechnik | Ain Shams University} \hfill \textit{Ägypten | 2022}
+
+Gesamtnote: 1{,}8 (Deutsch).
+
+Graduation Project (A+): Entwicklung eines intelligenten CRS Catalyst-5 Manipulators mit Kollisionsschutz (ML-basierte Bilderkennung in Python).
+
+% ================== PAGE BREAK ==================
+\clearpage
+
+% ================== TECH STACK ==================
+\cvsection{TECH STACK -- KEY SKILLS}
+
+\textbf{Programmiersprachen:} Python (Experte), C/C++, Java, C\#, Dart/Flutter, MATLAB/Simulink, SQL, JavaScript
+
+\textbf{Frameworks \& Tools:} ROS2, TensorFlow, PyTorch, Firebase, Google Cloud, Docker, Git/GitLab, Power BI, Power Automate
+
+\textbf{Embedded \& Control:} RTOS, CAN, UART/I2C/SPI, MCU-Programmierung, Regelungstechnik, MPC, Automatisierungstechnik
+
+\textbf{Software Engineering:} CI/CD, Microservices, Cloud-Architektur, Datenmodellierung, API-Design
+
+\textbf{CAD/Mechanik:} SolidWorks, Fusion 360, Grundlagen der FEM
+
+% ================== PRAKTIKA ==================
+\cvsection{PRAKTIKA}
+
+\textbf{P\&G School of Future Leaders}
+\begin{itemize}
+  \item Fokus: Leadership, Soft Skills, Projektmanagement, Teamkommunikation.
+\end{itemize}
+
+\textbf{Siemens Best-in-Class Internship | Digitale Industrie}
+\begin{itemize}
+  \item Fokus: Drives, Automatisierung, CNC, SPS-Programmierung, industrielle Kommunikation.
+  \item Einblicke in Industrie 4.0 und moderne Automatisierungsstrategien.
+\end{itemize}
+
+\textbf{Valeo Embedded Academy}
+\begin{itemize}
+  \item Embedded C, Software-Architektur, Unit Testing, Automotive Protokolle (CAN).
+\end{itemize}
+
+% ================== PROJEKTE ==================
+\cvsection{RELEVANTE PROJEKTERFAHRUNG}
+
+\textbf{Autonomer Feuerwehrroboter}
+\begin{itemize}
+  \item Halbautonome Navigation (Raspberry Pi + Sensorfusion).
+  \item Objekterkennung über Kamerasysteme.
+  \item Echtzeitsystem zur Lokalisierung von Flammenquellen.
+\end{itemize}
+
+\textbf{Industrielle Mini-Produktionslinie}
+\begin{itemize}
+  \item Entwicklung eines 5-stufigen Systems (Materialzufuhr, Transport, Montage, Sortierung, Demontage).
+  \item SPS-Logik \& embedded Steuerung.
+\end{itemize}
+
+\textbf{Aufzugssteuerung (ATmega32)}
+\begin{itemize}
+  \item Zustandsautomat, Echtzeitsteuerung, Sicherheitsmodus (Feuerfall).
+\end{itemize}
+
+\textbf{C-basiertes Zahlungssystem}
+\begin{itemize}
+  \item Vollständige Systemarchitektur (Server, Terminal, Kartenmodul).
+\end{itemize}
+
+% ================== FOOTER ==================
+\vfill
+\begin{tabularx}{\textwidth}{@{}X X@{}}
+  \textbf{Ort, Datum} & \hfill \textbf{Unterschrift}\\[-2pt]
+  Erlangen, 30.12.2025 & \hfill {\fontfamily{pzc}\selectfont\Large Mohannad Atta}
+\end{tabularx}
+
+\end{document}
