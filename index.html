@@ -49,33 +49,40 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        background: '#0a0a0a',
-                        surface: '#121212',
-                        surfaceHighlight: '#1E1E1E',
-                        primary: '#2DD4BF', // Teal
-                        secondary: '#A855F7', // Purple
-                        textMain: '#E5E5E5',
-                        textMuted: '#A3A3A3',
+                        background: '#0F111A',
+                        surface: '#1E1E1E',
+                        surfaceHighlight: '#2A2A2E',
+                        primary: '#10B981', // Green
+                        secondary: '#3B82F6', // Blue
+                        textMain: '#E4E4E7',
+                        textMuted: '#9CA3AF',
+                        border: '#374151',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        heading: ['Poppins', 'sans-serif'],
+                        heading: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Consolas', 'monospace'],
                     },
                     animation: {
                         'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'slide-in': 'slideIn 0.3s ease-out',
                     },
                     keyframes: {
                         fadeInUp: {
                             '0%': { opacity: '0', transform: 'translateY(20px)' },
                             '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideIn: {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(0)' },
                         }
                     }
                 }
@@ -85,70 +92,57 @@
 
     <style>
         :root {
-            --bg-main: #0a0a0a;
-            --bg-surface: #121212;
-            --bg-surface-highlight: #1E1E1E;
-            --text-main: #E5E5E5;
-            --text-muted: #A3A3A3;
-            --border-color: rgba(255, 255, 255, 0.05);
-        }
-        
-        body.light-mode {
-            --bg-main: #ffffff;
-            --bg-surface: #f5f5f5;
-            --bg-surface-highlight: #e5e5e5;
-            --text-main: #1a1a1a;
-            --text-muted: #666666;
-            --border-color: rgba(0, 0, 0, 0.1);
+            --bg-main: #0F111A;
+            --bg-surface: #1E1E1E;
+            --bg-surface-highlight: #2A2A2E;
+            --text-main: #E4E4E7;
+            --text-muted: #9CA3AF;
+            --border-color: #374151;
+            --accent-primary: #10B981;
+            --accent-secondary: #3B82F6;
         }
         
         body {
-            background: linear-gradient(135deg, 
-                #0a1212 0%, 
-                #0c1515 20%,
-                #0a0e14 40%, 
-                #0f0a14 60%,
-                #120a14 80%,
-                #0e0a12 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 20s ease infinite;
+            background: #0F111A;
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            transition: background-color 0.3s ease, color 0.3s ease;
             position: relative;
         }
         
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
         h1, h2, h3, h4, h5, h6 {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
         }
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 10px;
         }
         ::-webkit-scrollbar-track {
             background: var(--bg-main);
         }
         ::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 4px;
+            background: var(--border-color);
+            border-radius: 5px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #2DD4BF;
+            background: var(--accent-primary);
         }
         .gradient-text {
-            background: linear-gradient(to right, #2DD4BF, #A855F7);
+            background: linear-gradient(135deg, #10B981 0%, #3B82F6 100%);
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .hero-pattern {
-            background-image: radial-gradient(circle at 1px 1px, rgba(45, 212, 191, 0.1) 1px, transparent 0);
-            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(55, 65, 81, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(55, 65, 81, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
         }
         .no-scrollbar::-webkit-scrollbar {
             display: none;
@@ -158,31 +152,26 @@
             scrollbar-width: none;
         }
         
-        /* Glassmorphism Effects */
+        /* Dashboard Card Effects */
         .glass {
-            background: rgba(10, 10, 10, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
         }
         
         .glass-card {
-            background: rgba(15, 15, 15, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
         }
         
         .glass-hover {
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
         
         .glass-hover:hover {
-            background: rgba(20, 20, 20, 0.85);
-            border-color: rgba(45, 212, 191, 0.5);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px 0 rgba(45, 212, 191, 0.25);
+            background: var(--bg-surface-highlight);
+            border-color: var(--accent-primary);
+            box-shadow: 0 4px 12px 0 rgba(16, 185, 129, 0.15);
         }
         
         /* Page Loader */
@@ -554,28 +543,30 @@
             };
 
             return (
-                <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'glass shadow-lg' : 'bg-transparent'}`}>
-                    <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-                        <div className="text-2xl font-bold font-heading tracking-tight cursor-pointer" onClick={() => scrollTo('home')}>
-                            <span className="text-white">Mohannad</span><span className="text-primary">.</span>
+                <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-200 ${isScrolled ? 'glass shadow-md border-b border-border' : 'bg-transparent'}`}>
+                    <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+                        <div className="font-mono text-xl font-bold tracking-tight cursor-pointer flex items-center gap-2" onClick={() => scrollTo('home')}>
+                            <span className="text-primary">&gt;</span>
+                            <span className="text-white">mohannad</span>
+                            <span className="text-primary">_</span>
                         </div>
 
                         {/* Desktop Nav */}
-                        <div className="hidden md:flex items-center space-x-8">
+                        <div className="hidden md:flex items-center space-x-1">
                             {navLinks.map((link) => (
                                 <button
                                     key={link.name}
                                     onClick={() => scrollTo(link.id)}
-                                    className={`text-sm font-medium transition-colors hover:text-primary ${activeSection === link.id ? 'text-primary' : 'text-textMuted'}`}
+                                    className={`text-sm font-medium px-4 py-2 rounded-md transition-colors font-mono ${activeSection === link.id ? 'bg-primary/10 text-primary border border-primary/30' : 'text-textMuted hover:text-white hover:bg-surfaceHighlight'}`}
                                 >
                                     {link.name}
                                 </button>
                             ))}
                             <button 
                                 onClick={toggleAI}
-                                className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-secondary/20 to-primary/20 border border-primary/30 text-primary hover:border-primary transition-all text-xs font-bold uppercase tracking-wider hover:scale-105"
+                                className="ml-4 flex items-center gap-2 px-4 py-2 rounded-md bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20 transition-all text-xs font-mono font-bold uppercase tracking-wider"
                             >
-                                <Icons.Bot size={16} /> AI Assistant
+                                <Icons.Bot size={14} /> AI
                             </button>
                         </div>
 
@@ -587,16 +578,16 @@
 
                     {/* Mobile Menu */}
                     {mobileMenuOpen && (
-                        <div className="md:hidden glass border-b overflow-hidden animate-fade-in-up">
-                            <div className="flex flex-col p-6 space-y-3">
+                        <div className="md:hidden glass border-b border-border overflow-hidden animate-fade-in-up">
+                            <div className="flex flex-col p-4 space-y-2">
                                 {navLinks.map((link) => (
                                     <button
                                         key={link.name}
                                         onClick={() => scrollTo(link.id)}
-                                        className={`text-left text-lg font-medium transition-all p-3 rounded-lg ${
+                                        className={`text-left text-base font-medium font-mono transition-all p-3 rounded-md ${
                                             activeSection === link.id 
-                                                ? 'bg-primary/10 text-primary border-l-4 border-primary' 
-                                                : 'text-textMuted hover:text-white hover:bg-white/5'
+                                                ? 'bg-primary/10 text-primary border border-primary/30' 
+                                                : 'text-textMuted hover:text-white hover:bg-surfaceHighlight'
                                         }`}
                                     >
                                         {link.name}
@@ -604,9 +595,9 @@
                                 ))}
                                 <button 
                                     onClick={() => {toggleAI(); setMobileMenuOpen(false)}} 
-                                    className="text-left text-lg font-medium text-secondary p-3 rounded-lg hover:bg-secondary/10 flex items-center gap-2"
+                                    className="text-left text-base font-medium font-mono text-primary p-3 rounded-md hover:bg-primary/10 flex items-center gap-2 border border-primary/30"
                                 >
-                                    <Icons.Bot size={20} /> Ask AI Assistant
+                                    <Icons.Bot size={18} /> AI Assistant
                                 </button>
                             </div>
                         </div>
@@ -619,74 +610,86 @@
             const typedRole = useTypingEffect(["CTO & Lead Engineer", "Robotics Engineer", "AI Specialist", "Software Architect"], 100, 50, 2000);
             
             return (
-                <section id="home" className="min-h-screen flex items-center relative overflow-hidden pt-20 bg-gradient-to-b from-background via-surface to-background">
-                    <div className="absolute inset-0 hero-pattern opacity-20 pointer-events-none"></div>
+                <section id="home" className="min-h-screen flex items-center relative overflow-hidden pt-16 bg-background">
+                    <div className="absolute inset-0 hero-pattern opacity-30 pointer-events-none"></div>
                     
-                    {/* Background Glows */}
-                    <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[100px] animate-pulse-slow"></div>
-                    <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-[100px] animate-pulse-slow" style={{animationDelay: '1s'}}></div>
+                    {/* Subtle accent lines */}
+                    <div className="absolute top-0 left-0 w-1 h-64 bg-gradient-to-b from-primary to-transparent"></div>
+                    <div className="absolute bottom-0 right-0 w-1 h-64 bg-gradient-to-t from-secondary to-transparent"></div>
 
                     <div className="max-w-7xl mx-auto px-6 relative z-10 w-full grid md:grid-cols-2 gap-12 items-center">
                         <div className="animate-fade-in-up">
-                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-primary text-xs font-bold uppercase tracking-widest mb-6">
+                            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary/10 border border-primary/30 text-primary text-xs font-mono font-bold uppercase tracking-wider mb-6">
                                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                                Open to Opportunities
+                                available for opportunities
                             </div>
-                            <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
-                                <span className="block text-white">Building the</span>
-                                <span className="gradient-text">Autonomous Future</span>
+                            <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
+                                <span className="block text-white">Building </span>
+                                <span className="gradient-text">Autonomous Systems</span>
                             </h1>
-                            <div className="text-xl text-primary font-semibold mb-3 h-8">
-                                {typedRole}<span className="animate-pulse">|</span>
+                            <div className="text-lg font-mono text-primary mb-4 h-8">
+                                {typedRole}<span className="animate-pulse">█</span>
                             </div>
-                            <p className="text-xl text-textMuted leading-relaxed mb-8 max-w-lg">
-                                Bridging high-level cloud architectures with low-level embedded control.
+                            <p className="text-lg text-textMuted leading-relaxed mb-8 max-w-lg">
+                                Specializing in robotics, AI, and full-stack development. From embedded systems to cloud architecture.
                             </p>
                             <div className="flex flex-wrap gap-4">
                                 <a 
                                     href="#projects" 
                                     onClick={() => trackEvent('view_projects_click', { source: 'hero' })}
-                                    className="px-8 py-4 rounded-lg bg-primary text-background font-bold transition-all flex items-center gap-2 btn-enhanced ripple"
+                                    className="px-6 py-3 rounded-md bg-primary text-background font-mono font-bold transition-all flex items-center gap-2 hover:bg-primary/90 shadow-lg shadow-primary/20"
                                 >
-                                    View Engineering Work <Icons.Code size={18}/>
+                                    <Icons.Code size={18}/>View Work
                                 </a>
                                 <a 
                                     href={PORTFOLIO_DATA.personal.cv} 
                                     download="Mohannad_Atta_CV.pdf"
                                     onClick={() => trackEvent('cv_download', { source: 'hero' })}
-                                    className="px-8 py-4 rounded-lg glass-card glass-hover text-white font-bold transition-all flex items-center gap-2 btn-enhanced ripple"
+                                    className="px-6 py-3 rounded-md glass-card glass-hover text-white font-mono font-bold transition-all flex items-center gap-2"
                                 >
-                                    Download CV <Icons.Download size={18}/>
+                                    <Icons.Download size={18}/> CV
                                 </a>
+                            </div>
+                            
+                            {/* Terminal-style info */}
+                            <div className="mt-8 p-4 rounded-md bg-surface border border-border font-mono text-xs text-textMuted">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <span className="text-primary">$</span>
+                                    <span className="text-secondary">whoami</span>
+                                </div>
+                                <div className="pl-4 space-y-1">
+                                    <div><span className="text-white">role:</span> CTO & Software Engineer</div>
+                                    <div><span className="text-white">specialization:</span> [Robotics, AI, Autonomous Systems]</div>
+                                    <div><span className="text-white">stack:</span> ROS2 | Flutter | Firebase | C++ | Python</div>
+                                </div>
                             </div>
                         </div>
 
                         <div className="hidden md:block relative group animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                             {/* Profile Picture with Tech Effect */}
-                            <div className="relative z-10 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
-                                <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none"></div>
+                            <div className="relative z-10 rounded-lg overflow-hidden border border-border shadow-2xl">
+                                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent z-10 pointer-events-none"></div>
                                 <img 
                                     src={PORTFOLIO_DATA.personal.photo} 
                                     alt={PORTFOLIO_DATA.personal.name}
-                                    className="w-full h-auto object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                                    className="w-full h-auto object-cover"
                                 />
                                 {/* System Overlay */}
-                                <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/90 to-transparent p-6 pt-20 z-20">
-                                    <div className="flex items-center gap-3 border-t border-white/20 pt-3">
-                                        <div className="flex gap-1">
-                                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                                            <div className="w-2 h-2 bg-green-500/50 rounded-full"></div>
+                                <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/95 via-black/80 to-transparent p-4 pt-16 z-20">
+                                    <div className="flex items-center justify-between border-t border-white/10 pt-3">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                                            <div className="font-mono text-xs text-primary tracking-wider uppercase">
+                                                Status: Online
+                                            </div>
                                         </div>
-                                        <div className="font-mono text-xs text-primary tracking-widest uppercase">
-                                            System_Online // ID: CTO
-                                        </div>
+                                        <div className="font-mono text-xs text-textMuted">ID: CTO-001</div>
                                     </div>
                                 </div>
                             </div>
                             
-                            {/* Decorative elements behind */}
-                            <div className="absolute -top-6 -right-6 w-full h-full border border-primary/20 rounded-2xl -z-10 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform duration-500"></div>
-                            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-secondary/20 blur-3xl -z-10"></div>
+                            {/* Decorative grid behind */}
+                            <div className="absolute -top-4 -right-4 w-full h-full border border-border/30 rounded-lg -z-10"></div>
                         </div>
                     </div>
                 </section>
@@ -695,29 +698,32 @@
 
         const About = () => {
             return (
-                <section id="about" className="py-24 bg-surfaceHighlight/30 border-t-2 border-primary/20">
+                <section id="about" className="py-20 bg-surface border-y border-border">
                     <div className="max-w-7xl mx-auto px-6">
-                        <div className="mb-16">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4">Technical <span className="text-primary">Arsenal</span></h2>
-                            <p className="text-textMuted max-w-2xl">
-                                My expertise isn't just full-stack; it's full-system. From the metal up to the cloud.
+                        <div className="mb-12">
+                            <h2 className="text-2xl md:text-3xl font-bold mb-3 flex items-center gap-2">
+                                <span className="text-primary font-mono">//</span>
+                                <span>Technical <span className="text-primary">Skills</span></span>
+                            </h2>
+                            <p className="text-textMuted">
+                                Full-stack. Full-system. From hardware to cloud.
                             </p>
                         </div>
 
-                        <div className="grid md:grid-cols-3 gap-8">
+                        <div className="grid md:grid-cols-3 gap-6">
                             {PORTFOLIO_DATA.skills.map((skillGroup, idx) => (
                                 <div 
                                     key={idx}
-                                    className="p-8 rounded-2xl glass-card glass-hover"
+                                    className="p-6 rounded-lg glass-card glass-hover border-l-2 border-l-primary/50"
                                 >
-                                    <div className="w-12 h-12 rounded-lg bg-background flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+                                    <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center text-primary mb-4">
                                         {skillGroup.icon}
                                     </div>
-                                    <h3 className="text-xl font-bold mb-4">{skillGroup.category}</h3>
+                                    <h3 className="text-lg font-bold mb-4 font-mono text-sm uppercase tracking-wide">{skillGroup.category}</h3>
                                     <ul className="space-y-2">
                                         {skillGroup.items.map((item, i) => (
                                             <li key={i} className="flex items-center gap-2 text-textMuted text-sm">
-                                                <div className="w-1.5 h-1.5 rounded-full bg-secondary"></div>
+                                                <span className="text-primary font-mono text-xs">›</span>
                                                 {item}
                                             </li>
                                         ))}
@@ -732,26 +738,34 @@
 
         const ProfessionalStats = () => {
             const [counts, setCounts] = useState({ experience: 0, projects: 0, technologies: 0 });
+            const [progress, setProgress] = useState({ experience: 0, projects: 0, technologies: 0 });
             
             useEffect(() => {
                 // Animate counters
                 const duration = 2000;
                 const steps = 60;
                 const targets = { experience: 3, projects: 12, technologies: 20 };
+                const progressTargets = { experience: 100, projects: 100, technologies: 100 };
                 let currentStep = 0;
 
                 const interval = setInterval(() => {
                     currentStep++;
-                    const progress = currentStep / steps;
+                    const prog = currentStep / steps;
                     setCounts({
-                        experience: Math.floor(targets.experience * progress),
-                        projects: Math.floor(targets.projects * progress),
-                        technologies: Math.floor(targets.technologies * progress)
+                        experience: Math.floor(targets.experience * prog),
+                        projects: Math.floor(targets.projects * prog),
+                        technologies: Math.floor(targets.technologies * prog)
+                    });
+                    setProgress({
+                        experience: Math.floor(progressTargets.experience * prog),
+                        projects: Math.floor(progressTargets.projects * prog),
+                        technologies: Math.floor(progressTargets.technologies * prog)
                     });
 
                     if (currentStep >= steps) {
                         clearInterval(interval);
                         setCounts(targets);
+                        setProgress(progressTargets);
                     }
                 }, duration / steps);
 
@@ -759,24 +773,32 @@
             }, []);
 
             const statItems = [
-                { label: 'Years Experience', value: counts.experience + '+', icon: <Icons.Zap size={24} />, color: 'text-primary' },
-                { label: 'Projects Delivered', value: counts.projects + '+', icon: <Icons.Code size={24} />, color: 'text-secondary' },
-                { label: 'Tech Stack', value: counts.technologies + '+', icon: <Icons.Layers size={24} />, color: 'text-primary' }
+                { label: 'Years Experience', value: counts.experience + '+', progress: progress.experience, icon: <Icons.Zap size={20} /> },
+                { label: 'Projects Delivered', value: counts.projects + '+', progress: progress.projects, icon: <Icons.Code size={20} /> },
+                { label: 'Technologies', value: counts.technologies + '+', progress: progress.technologies, icon: <Icons.Layers size={20} /> }
             ];
 
             return (
-                <div className="py-16 bg-gradient-to-r from-surface via-background to-surface border-y-2 border-secondary/20 shadow-2xl">
+                <div className="py-16 bg-background border-y border-border">
                     <div className="max-w-7xl mx-auto px-6">
                         <div className="grid md:grid-cols-3 gap-6">
                             {statItems.map((item, idx) => (
-                                <div key={idx} className="text-center p-8 rounded-xl glass-card glass-hover">
-                                    <div className={`flex justify-center mb-4 ${item.color} group-hover:scale-110 transition-transform`}>
-                                        {item.icon}
+                                <div key={idx} className="p-6 rounded-lg glass-card glass-hover">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <div className="text-primary">
+                                            {item.icon}
+                                        </div>
+                                        <div className="text-3xl font-bold font-mono text-primary">
+                                            {item.value}
+                                        </div>
                                     </div>
-                                    <div className="text-4xl font-bold mb-2 gradient-text">
-                                        {item.value}
+                                    <div className="text-xs text-textMuted uppercase tracking-wider mb-3 font-mono">{item.label}</div>
+                                    <div className="w-full bg-surfaceHighlight rounded-full h-1.5 overflow-hidden">
+                                        <div 
+                                            className="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-1000"
+                                            style={{ width: `${item.progress}%` }}
+                                        ></div>
                                     </div>
-                                    <div className="text-sm text-textMuted uppercase tracking-wider">{item.label}</div>
                                 </div>
                             ))}
                         </div>
@@ -787,33 +809,32 @@
 
         const Experience = () => {
             return (
-                <section id="experience" className="py-24 bg-surfaceHighlight/40 relative border-t-2 border-primary/20">
-                     <div className="max-w-4xl mx-auto px-6">
-                        <div className="mb-16 text-center">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4">Experience & <span className="text-secondary">Education</span></h2>
-                            <p className="text-textMuted">A timeline of my engineering journey.</p>
+                <section id="experience" className="py-20 bg-surface relative border-y border-border">
+                     <div className="max-w-5xl mx-auto px-6">
+                        <div className="mb-12">
+                            <h2 className="text-2xl md:text-3xl font-bold mb-3 flex items-center gap-2">
+                                <span className="text-primary font-mono">//</span>
+                                <span>Experience & <span className="text-primary">Education</span></span>
+                            </h2>
+                            <p className="text-textMuted">Engineering journey and milestones</p>
                         </div>
 
-                        <div className="space-y-12 relative before:content-[''] before:absolute before:left-4 md:before:left-1/2 before:top-0 before:bottom-0 before:w-0.5 before:bg-white/10">
+                        <div className="space-y-8 relative before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-0.5 before:bg-border">
                             {PORTFOLIO_DATA.experience.map((exp, idx) => (
                                 <div 
                                     key={idx}
-                                    className={`relative flex flex-col md:flex-row gap-8 ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
+                                    className="relative pl-8"
                                 >
-                                    <div className="hidden md:block w-1/2"></div>
-                                    
                                     {/* Dot */}
-                                    <div className="absolute left-4 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-background border-4 border-secondary z-10 mt-1.5"></div>
+                                    <div className="absolute left-0 -translate-x-[3px] w-2 h-2 rounded-full bg-primary z-10 mt-2"></div>
 
-                                    <div className="pl-12 md:pl-0 md:w-1/2">
-                                        <div className={`p-6 rounded-xl glass-card glass-hover ${idx % 2 === 0 ? 'md:mr-8' : 'md:ml-8'}`}>
-                                            <span className="text-xs font-mono text-primary mb-2 block">{exp.year}</span>
-                                            <h3 className="text-lg font-bold text-white">{exp.role}</h3>
-                                            <div className="text-secondary text-sm font-semibold mb-3">{exp.company}</div>
-                                            <p className="text-textMuted text-sm leading-relaxed">
-                                                {exp.desc}
-                                            </p>
-                                        </div>
+                                    <div className="p-5 rounded-lg glass-card glass-hover">
+                                        <span className="text-xs font-mono text-primary mb-2 block bg-primary/10 px-2 py-1 rounded inline-block">{exp.year}</span>
+                                        <h3 className="text-base font-bold text-white mb-1">{exp.role}</h3>
+                                        <div className="text-secondary text-sm font-medium mb-3 font-mono">{exp.company}</div>
+                                        <p className="text-textMuted text-sm leading-relaxed">
+                                            {exp.desc}
+                                        </p>
                                     </div>
                                 </div>
                             ))}
@@ -919,33 +940,33 @@
             return (
                 <div
                     onClick={handleClick}
-                    className="group relative rounded-xl overflow-hidden glass-card glass-hover h-full flex flex-col cursor-pointer"
+                    className="group relative rounded-lg overflow-hidden glass-card glass-hover h-full flex flex-col cursor-pointer"
                 >
-                    <div className="h-48 bg-gradient-to-br from-gray-800 to-black relative overflow-hidden">
+                    <div className="h-44 bg-surfaceHighlight relative overflow-hidden">
                         <img 
                             src={project.image} 
                             alt={project.title}
-                            className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-70 group-hover:scale-110 transition-all duration-700"
+                            className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 group-hover:scale-105 transition-all duration-500"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
-                        <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-black/60 backdrop-blur-sm text-xs font-bold text-white border border-white/10">
+                        <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/60 to-transparent"></div>
+                        <div className="absolute top-3 left-3 px-2.5 py-1 rounded bg-background/80 backdrop-blur-sm text-xs font-mono font-bold text-primary border border-primary/30">
                             {project.type}
                         </div>
                         <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Icons.ExternalLink size={20} className="text-primary" />
+                            <Icons.ExternalLink size={18} className="text-primary" />
                         </div>
                     </div>
                     
-                    <div className="p-6 flex-1 flex flex-col">
-                        <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">{project.title}</h3>
-                        <p className="text-textMuted text-sm mb-6 flex-1">
+                    <div className="p-5 flex-1 flex flex-col">
+                        <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors">{project.title}</h3>
+                        <p className="text-textMuted text-sm mb-4 flex-1">
                             {project.desc}
                         </p>
                         
                         <div className="space-y-3">
                             <div className="flex flex-wrap gap-2">
                                 {project.tech.map((t, i) => (
-                                    <span key={i} className="text-xs px-2 py-1 rounded bg-white/5 text-gray-300 border border-white/5">
+                                    <span key={i} className="text-xs font-mono px-2 py-1 rounded bg-surfaceHighlight text-textMuted border border-border">
                                         {t}
                                     </span>
                                 ))}
@@ -957,7 +978,7 @@
                                         href={project.github} 
                                         target="_blank" 
                                         onClick={handleGithubClick} 
-                                        className="flex-1 text-center px-3 py-2 rounded-lg glass glass-hover text-textMuted hover:text-white transition-all text-xs flex items-center justify-center gap-2 ripple"
+                                        className="flex-1 text-center px-3 py-2 rounded-md glass glass-hover text-textMuted hover:text-white transition-all text-xs font-mono flex items-center justify-center gap-2"
                                     >
                                         <Icons.Github size={14} /> Code
                                     </a>
@@ -967,7 +988,7 @@
                                         href={project.demo} 
                                         target="_blank" 
                                         onClick={handleDemoClick} 
-                                        className="flex-1 text-center px-3 py-2 rounded-lg bg-primary/20 hover:bg-primary/30 text-primary hover:text-white transition-all text-xs flex items-center justify-center gap-2 ripple"
+                                        className="flex-1 text-center px-3 py-2 rounded-md bg-primary/10 hover:bg-primary/20 text-primary border border-primary/30 hover:text-white transition-all text-xs font-mono flex items-center justify-center gap-2"
                                     >
                                         <Icons.ExternalLink size={14} /> Demo
                                     </a>
@@ -1053,15 +1074,18 @@
 
             return (
                 <>
-                    <section id="projects" className="py-24 bg-surfaceHighlight/30 border-t-2 border-primary/20">
+                    <section id="projects" className="py-20 bg-background border-y border-border">
                         <div className="max-w-7xl mx-auto px-6">
                             <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
                                 <div>
-                                    <h2 className="text-3xl md:text-4xl font-bold mb-4">Selected <span className="gradient-text">Projects</span></h2>
-                                    <p className="text-textMuted">High-impact engineering work in Robotics and AI.</p>
+                                    <h2 className="text-2xl md:text-3xl font-bold mb-3 flex items-center gap-2">
+                                        <span className="text-primary font-mono">//</span>
+                                        <span>Selected <span className="gradient-text">Projects</span></span>
+                                    </h2>
+                                    <p className="text-textMuted">High-impact engineering work</p>
                                 </div>
-                                <a href="https://github.com/MohannadAtta" target="_blank" className="flex items-center gap-2 text-primary font-medium hover:underline">
-                                    View GitHub <Icons.Github size={16}/>
+                                <a href="https://github.com/MohannadAtta" target="_blank" className="flex items-center gap-2 text-primary font-mono text-sm hover:underline">
+                                    GitHub <Icons.Github size={14}/>
                                 </a>
                             </div>
 
@@ -1071,9 +1095,9 @@
                                     <button
                                         key={cat}
                                         onClick={() => setFilter(cat)}
-                                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                                        className={`px-4 py-2 rounded-md text-xs font-mono font-medium transition-all ${
                                             filter === cat 
-                                                ? 'bg-primary text-background' 
+                                                ? 'bg-primary/10 text-primary border border-primary/30' 
                                                 : 'glass glass-hover text-textMuted hover:text-white'
                                         }`}
                                     >
@@ -1082,7 +1106,7 @@
                                 ))}
                             </div>
 
-                            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                            <div className="grid md:grid-cols-2 gap-6">
                                 {filteredProjects.map((project, idx) => (
                                     <ProjectCard key={idx} project={project} onClick={() => setSelectedProject(project)} />
                                 ))}
@@ -1162,51 +1186,56 @@
             };
 
             return (
-                <section id="contact" className="py-24 bg-gradient-to-b from-surface via-background to-surface border-t-2 border-secondary/30 shadow-inner">
-                    <div className="max-w-3xl mx-auto px-6 text-center">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-8">Ready to <span className="text-primary">Collaborate?</span></h2>
-                        <p className="text-textMuted mb-12">
-                            Open to consulting, full-time opportunities, project collaborations, and technical interviews in Robotics, AI, and Software Engineering.
-                        </p>
+                <section id="contact" className="py-20 bg-surface border-y border-border">
+                    <div className="max-w-3xl mx-auto px-6">
+                        <div className="mb-12">
+                            <h2 className="text-2xl md:text-3xl font-bold mb-3 flex items-center gap-2">
+                                <span className="text-primary font-mono">//</span>
+                                <span>Get In <span className="text-primary">Touch</span></span>
+                            </h2>
+                            <p className="text-textMuted">
+                                Open to consulting, full-time opportunities, and technical collaborations.
+                            </p>
+                        </div>
 
-                        <form onSubmit={handleSubmit} className="text-left glass-card p-8 rounded-2xl shadow-2xl space-y-6">
-                            <div className="grid md:grid-cols-2 gap-6">
+                        <form onSubmit={handleSubmit} className="glass-card p-6 rounded-lg space-y-5">
+                            <div className="grid md:grid-cols-2 gap-5">
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium text-gray-400">Name</label>
+                                    <label className="text-xs font-mono text-textMuted uppercase tracking-wider">Name</label>
                                     <input 
                                         required 
                                         name="name" 
                                         type="text" 
                                         value={formData.name}
                                         onChange={handleInputChange}
-                                        className={`w-full bg-background border rounded-lg p-3 text-white focus:outline-none transition-all ${errors.name ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-primary'}`}
+                                        className={`w-full bg-background border rounded-md p-3 text-white focus:outline-none transition-all ${errors.name ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-primary'}`}
                                         placeholder="John Doe" 
                                     />
-                                    {errors.name && <p className="text-xs text-red-500">{errors.name}</p>}
+                                    {errors.name && <p className="text-xs text-red-500 font-mono">{errors.name}</p>}
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium text-gray-400">Email</label>
+                                    <label className="text-xs font-mono text-textMuted uppercase tracking-wider">Email</label>
                                     <input 
                                         required 
                                         name="email" 
                                         type="email" 
                                         value={formData.email}
                                         onChange={handleInputChange}
-                                        className={`w-full bg-background border rounded-lg p-3 text-white focus:outline-none transition-all ${errors.email ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-primary'}`}
+                                        className={`w-full bg-background border rounded-md p-3 text-white focus:outline-none transition-all ${errors.email ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-primary'}`}
                                         placeholder="john@example.com" 
                                     />
-                                    {errors.email && <p className="text-xs text-red-500">{errors.email}</p>}
+                                    {errors.email && <p className="text-xs text-red-500 font-mono">{errors.email}</p>}
                                 </div>
                             </div>
                             <div className="space-y-2">
-                                <label className="text-sm font-medium text-gray-400">Message</label>
+                                <label className="text-xs font-mono text-textMuted uppercase tracking-wider">Message</label>
                                 <textarea 
                                     required 
                                     name="message" 
                                     rows="4" 
                                     value={formData.message}
                                     onChange={handleInputChange}
-                                    className="w-full bg-background border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-primary transition-colors" 
+                                    className="w-full bg-background border border-border rounded-md p-3 text-white focus:outline-none focus:border-primary transition-colors" 
                                     placeholder="Tell me about your project..."
                                 ></textarea>
                             </div>
@@ -1214,21 +1243,21 @@
                             <button 
                                 type="submit"
                                 disabled={status === 'success' || status === 'sending'}
-                                className={`w-full py-4 rounded-lg font-bold text-white transition-all flex items-center justify-center gap-2 btn-enhanced ripple ${
+                                className={`w-full py-3 rounded-md font-mono font-bold text-white transition-all flex items-center justify-center gap-2 ${
                                     status === 'success' ? 'bg-green-500' : 
                                     status === 'error' ? 'bg-red-500' : 
-                                    'bg-gradient-to-r from-primary to-secondary hover:shadow-lg hover:shadow-primary/50'
+                                    'bg-primary hover:bg-primary/90'
                                 } ${status === 'sending' ? 'opacity-70 cursor-not-allowed' : ''}`}
                             >
                                 {status === 'sending' ? (
                                     <>
-                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                                         <span>Sending...</span>
                                     </>
                                 ) : status === 'success' ? (
                                     <>
                                         <Icons.Check size={18}/>
-                                        <span>Message Sent! 🎉</span>
+                                        <span>Message Sent!</span>
                                     </>
                                 ) : status === 'error' ? (
                                     <>
@@ -1236,38 +1265,38 @@
                                         <span>Error - Try Again</span>
                                     </>
                                 ) : (
-                                    <>Send Message <Icons.Send size={18}/></>
+                                    <><Icons.Send size={18}/>Send Message</>
                                 )}
                             </button>
                             
                             {status === 'success' && (
-                                <div className="mt-4 p-4 bg-green-500/10 border border-green-500/30 rounded-lg text-green-400 text-center animate-fade-in-up">
-                                    Thanks for reaching out! I'll get back to you soon.
+                                <div className="mt-4 p-3 bg-green-500/10 border border-green-500/30 rounded-md text-green-400 text-center text-sm font-mono">
+                                    Thanks! I'll get back to you soon.
                                 </div>
                             )}
                         </form>
                         
-                        <div className="mt-12 flex justify-center gap-8">
+                        <div className="mt-10 flex justify-center gap-6">
                             <a 
                                 href={PORTFOLIO_DATA.personal.github} 
                                 onClick={() => trackEvent('social_link_click', { platform: 'github' })}
-                                className="text-textMuted hover:text-white transition-all icon-rotate"
+                                className="text-textMuted hover:text-primary transition-all"
                             >
-                                <Icons.Github />
+                                <Icons.Github size={22} />
                             </a>
                             <a 
                                 href={PORTFOLIO_DATA.personal.linkedin} 
                                 onClick={() => trackEvent('social_link_click', { platform: 'linkedin' })}
-                                className="text-textMuted hover:text-white transition-all icon-rotate"
+                                className="text-textMuted hover:text-primary transition-all"
                             >
-                                <Icons.Linkedin />
+                                <Icons.Linkedin size={22} />
                             </a>
                             <a 
                                 href={`mailto:${PORTFOLIO_DATA.personal.email}`} 
                                 onClick={() => trackEvent('social_link_click', { platform: 'email' })}
-                                className="text-textMuted hover:text-white transition-all icon-rotate"
+                                className="text-textMuted hover:text-primary transition-all"
                             >
-                                <Icons.Mail />
+                                <Icons.Mail size={22} />
                             </a>
                         </div>
                     </div>
@@ -1278,7 +1307,7 @@
         // --- AI ASSISTANT COMPONENT ---
         const AIAssistant = ({ isOpen, onClose }) => {
             const [messages, setMessages] = useState([
-                { role: 'ai', content: "Hello! I'm Mohannad's AI Assistant. You can ask me about his experience in Robotics, his CTO role, or his tech stack." }
+                { role: 'ai', content: "Hello! I'm Mohannad's AI Assistant. Ask me about his experience in Robotics, CTO role, or tech stack." }
             ]);
             const [input, setInput] = useState('');
             const [isTyping, setIsTyping] = useState(false);
@@ -1331,25 +1360,25 @@
 
             return (
                 <div
-                    className="fixed bottom-6 right-6 w-96 max-w-[calc(100vw-3rem)] h-[500px] glass-card shadow-2xl rounded-2xl z-50 flex flex-col overflow-hidden animate-fade-in-up"
+                    className="fixed bottom-6 right-6 w-96 max-w-[calc(100vw-3rem)] h-[500px] glass-card shadow-2xl rounded-lg z-50 flex flex-col overflow-hidden border border-border"
                 >
                     {/* Header */}
-                    <div className="glass bg-gradient-to-r from-secondary/20 to-primary/20 p-4 border-b border-white/10 flex justify-between items-center">
+                    <div className="glass bg-primary/10 p-4 border-b border-border flex justify-between items-center">
                         <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                            <span className="font-bold text-sm text-white">AI Technical Profile</span>
+                            <div className="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+                            <span className="font-mono font-bold text-xs text-white uppercase tracking-wider">AI Assistant</span>
                         </div>
                         <button onClick={onClose} className="text-textMuted hover:text-white"><Icons.X size={18}/></button>
                     </div>
 
                     {/* Chat Area */}
-                    <div className="flex-1 overflow-y-auto p-4 space-y-4" ref={scrollRef}>
+                    <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-background" ref={scrollRef}>
                         {messages.map((m, i) => (
                             <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`max-w-[85%] p-3 rounded-2xl text-sm leading-relaxed ${
+                                <div className={`max-w-[85%] p-3 rounded-lg text-sm leading-relaxed ${
                                     m.role === 'user' 
-                                    ? 'bg-primary text-background font-medium rounded-tr-none' 
-                                    : 'bg-white/5 text-gray-200 border border-white/5 rounded-tl-none'
+                                    ? 'bg-primary/10 text-white border border-primary/30 rounded-tr-none' 
+                                    : 'bg-surface text-textMuted border border-border rounded-tl-none'
                                 }`}>
                                     {m.content}
                                 </div>
@@ -1357,7 +1386,7 @@
                         ))}
                         {isTyping && (
                             <div className="flex justify-start">
-                                <div className="bg-white/5 px-4 py-2 rounded-2xl rounded-tl-none border border-white/5">
+                                <div className="bg-surface px-4 py-2 rounded-lg rounded-tl-none border border-border">
                                     <div className="flex gap-1">
                                         <div className="w-1.5 h-1.5 bg-textMuted rounded-full animate-bounce"></div>
                                         <div className="w-1.5 h-1.5 bg-textMuted rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
@@ -1368,60 +1397,48 @@
                         )}
                     </div>
 
-                    {/* Quick Questions - Always Visible */}
-                    <div className="px-4 pb-2 border-t border-white/10 pt-2">
-                        <div className="text-[10px] text-textMuted mb-1.5 uppercase tracking-wider">Quick Questions:</div>
-                        <div className="overflow-x-auto pb-1" style={{scrollbarWidth: 'thin', scrollbarColor: '#2DD4BF #1a1a1a'}}>
+                    {/* Quick Questions */}
+                    <div className="px-4 pb-2 border-t border-border pt-2 bg-surface">
+                        <div className="text-[10px] text-textMuted mb-1.5 uppercase tracking-wider font-mono">Quick:</div>
+                        <div className="overflow-x-auto pb-1" style={{scrollbarWidth: 'thin'}}>
                             <div className="flex gap-2 w-max">
                                 <button 
                                     onClick={() => setInput("What is his Robotics experience?")}
-                                    className="text-xs px-3 py-2 rounded-lg bg-white/5 hover:bg-primary/20 text-textMuted hover:text-primary border border-white/10 hover:border-primary/30 transition-all"
+                                    className="text-xs font-mono px-3 py-1.5 rounded-md bg-surfaceHighlight hover:bg-primary/10 text-textMuted hover:text-primary border border-border hover:border-primary/30 transition-all"
                                 >
-                                    🤖 Robotics
+                                    Robotics
                                 </button>
                                 <button 
                                     onClick={() => setInput("Tell me about the CTO role")}
-                                    className="text-xs px-3 py-2 rounded-lg bg-white/5 hover:bg-secondary/20 text-textMuted hover:text-secondary border border-white/10 hover:border-secondary/30 transition-all"
+                                    className="text-xs font-mono px-3 py-1.5 rounded-md bg-surfaceHighlight hover:bg-primary/10 text-textMuted hover:text-primary border border-border hover:border-primary/30 transition-all"
                                 >
-                                    💼 CTO Role
+                                    CTO Role
                                 </button>
                                 <button 
                                     onClick={() => setInput("What's his tech stack?")}
-                                    className="text-xs px-3 py-2 rounded-lg bg-white/5 hover:bg-primary/20 text-textMuted hover:text-primary border border-white/10 hover:border-primary/30 transition-all"
+                                    className="text-xs font-mono px-3 py-1.5 rounded-md bg-surfaceHighlight hover:bg-primary/10 text-textMuted hover:text-primary border border-border hover:border-primary/30 transition-all"
                                 >
-                                    💻 Tech Stack
-                                </button>
-                                <button 
-                                    onClick={() => setInput("Tell me about his education")}
-                                    className="text-xs px-3 py-2 rounded-lg bg-white/5 hover:bg-secondary/20 text-textMuted hover:text-secondary border border-white/10 hover:border-secondary/30 transition-all"
-                                >
-                                    🎓 Education
-                                </button>
-                                <button 
-                                    onClick={() => setInput("What projects has he built?")}
-                                    className="text-xs px-3 py-2 rounded-lg bg-white/5 hover:bg-primary/20 text-textMuted hover:text-primary border border-white/10 hover:border-primary/30 transition-all"
-                                >
-                                    🚀 Projects
+                                    Stack
                                 </button>
                                 <button 
                                     onClick={() => setInput("How to contact him?")}
-                                    className="text-xs px-3 py-2 rounded-lg bg-white/5 hover:bg-secondary/20 text-textMuted hover:text-secondary border border-white/10 hover:border-secondary/30 transition-all"
+                                    className="text-xs font-mono px-3 py-1.5 rounded-md bg-surfaceHighlight hover:bg-primary/10 text-textMuted hover:text-primary border border-border hover:border-primary/30 transition-all"
                                 >
-                                    📧 Contact
+                                    Contact
                                 </button>
                             </div>
                         </div>
                     </div>
 
                     {/* Input */}
-                    <form onSubmit={handleSend} className="p-3 glass border-t flex gap-2">
+                    <form onSubmit={handleSend} className="p-3 glass border-t border-border flex gap-2 bg-surface">
                         <input 
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
-                            placeholder="Ask about my skills..." 
-                            className="flex-1 bg-background rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-primary border border-transparent transition-colors"
+                            placeholder="Ask about skills..." 
+                            className="flex-1 bg-background rounded-md px-4 py-2 text-sm text-white font-mono focus:outline-none focus:border-primary border border-border transition-colors"
                         />
-                        <button type="submit" className="p-2 bg-secondary/80 hover:bg-secondary rounded-lg text-white transition-colors">
+                        <button type="submit" className="p-2 bg-primary hover:bg-primary/90 rounded-md text-background transition-colors">
                             <Icons.Send size={18} />
                         </button>
                     </form>
@@ -1434,7 +1451,7 @@
             const [aiOpen, setAiOpen] = useState(false);
 
             return (
-                <div className="antialiased text-gray-200 selection:bg-primary/30">
+                <div className="antialiased text-gray-200 selection:bg-primary/20">
                     <Navbar 
                         activeSection={activeSection} 
                         setActiveSection={setActiveSection} 
@@ -1450,8 +1467,12 @@
                         <Contact />
                     </main>
 
-                    <footer className="py-8 text-center text-textMuted text-sm glass border-t">
-                        <p>© {new Date().getFullYear()} Mohannad Atta. Built with React & Tailwind.</p>
+                    <footer className="py-6 text-center text-textMuted text-xs glass border-t border-border">
+                        <div className="font-mono">
+                            <span className="text-primary">&gt;</span> © {new Date().getFullYear()} Mohannad Atta 
+                            <span className="text-border mx-2">|</span> 
+                            Built with React & Tailwind
+                        </div>
                     </footer>
 
                     <AIAssistant isOpen={aiOpen} onClose={() => setAiOpen(false)} />
@@ -1460,9 +1481,9 @@
                     {!aiOpen && (
                         <button
                             onClick={() => setAiOpen(true)}
-                            className="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-tr from-secondary to-primary rounded-full shadow-lg shadow-primary/20 flex items-center justify-center text-white z-40 transition-transform hover:scale-110"
+                            className="fixed bottom-6 right-6 w-12 h-12 bg-primary rounded-lg shadow-lg shadow-primary/30 flex items-center justify-center text-background z-40 transition-transform hover:scale-110 border border-primary/50"
                         >
-                            <Icons.Bot size={28} />
+                            <Icons.Bot size={24} />
                         </button>
                     )}
                 </div>
