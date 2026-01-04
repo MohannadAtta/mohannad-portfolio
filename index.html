@@ -1450,6 +1450,32 @@
             const [activeSection, setActiveSection] = useState('home');
             const [aiOpen, setAiOpen] = useState(false);
 
+            // Scroll spy to detect active section
+            useEffect(() => {
+                const handleScroll = () => {
+                    const sections = ['home', 'about', 'experience', 'projects', 'contact'];
+                    const scrollPosition = window.scrollY + 100; // Offset for better detection
+
+                    for (const sectionId of sections) {
+                        const section = document.getElementById(sectionId);
+                        if (section) {
+                            const offsetTop = section.offsetTop;
+                            const offsetBottom = offsetTop + section.offsetHeight;
+
+                            if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
+                                setActiveSection(sectionId);
+                                break;
+                            }
+                        }
+                    }
+                };
+
+                window.addEventListener('scroll', handleScroll);
+                handleScroll(); // Initial check
+
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
             return (
                 <div className="antialiased text-gray-200 selection:bg-primary/20">
                     <Navbar 
